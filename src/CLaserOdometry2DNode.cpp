@@ -50,7 +50,6 @@ public:
   sensor_msgs::LaserScan      last_scan;
   bool                        GT_pose_initialized;
   tf::TransformListener       tf_listener;          //Do not put inside the callback
-  tf::TransformBroadcaster    odom_broadcaster;
   nav_msgs::Odometry          initial_robot_pose;
 
   //Subscriptions & Publishers
@@ -219,6 +218,7 @@ void CLaserOdometry2DNode::publish()
   if (publish_tf)
   {
     ROS_DEBUG("[rf2o] Publishing TF: [base_link] to [odom]");
+    static tf::TransformBroadcaster    odom_broadcaster;
     geometry_msgs::TransformStamped odom_trans;
     odom_trans.header.stamp = last_odom_time;
     odom_trans.header.frame_id = odom_frame_id;
@@ -275,5 +275,5 @@ int main(int argc, char** argv)
 
   ros::spin();
 
-  return EXIT_SUCCESS;
+  return 0;
 }
